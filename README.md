@@ -1,6 +1,6 @@
 # Quizily
 
-An e-larning platform for students to test their potential and compete with other users of their course. It has leaderboards, progress and many more.
+An E-learning platform for students to test their potential and compete with other users of their course. It has leaderboards, progress and many more.
 
 
 ## Contributors
