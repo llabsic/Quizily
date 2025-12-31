@@ -1,6 +1,6 @@
 # Quizily
 
-A e-larning plateform for student to test their potential and completing compitative mcqs. It provide leaderboards, progress and more.
+An e-larning platform for students to test their potential and compete with other users of their course. It has leaderboards, progress and many more.
 
 
 ## Contributors
