@@ -4,6 +4,14 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+
+  /* Map Tailwind colors → Material system tokens */
+  --md-sys-color-primary: theme(colors.indigo.600);
+  --md-sys-color-on-primary: theme(colors.white);
+
+  --md-sys-color-surface: theme(colors.white);
+  --md-sys-color-on-surface: theme(colors.gray.900);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
@@ -119,6 +127,7 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
