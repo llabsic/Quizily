@@ -1,26 +1,30 @@
 "use client"
 
-import { Button } from "@/components/ui/button";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
+import { MaterialButton } from "@/components/materialui/Button";
+import { MaterialCheckbox } from "@/components/materialui/Checkbox";
+import { MaterialChip, MaterialChipSet, MdIcon } from "@/components/materialui/Chip";
+import { User } from "lucide-react";
 
 function Home() {
 
   return (
-    <>
-      <h1 className="text-3xl">Hello Abubakar, umair, quddus </h1>
-      <p>Hello I edited Umair's code. Please try to use professional language while commiting.</p>
-      <Button onClick={() => alert("i am clicked")}>Click Me</Button>
-      <Popover>
-        <PopoverTrigger>Open</PopoverTrigger>
-        <PopoverContent>
-          <Button>Click</Button>
-        </PopoverContent>
-      </Popover>
-    </>
+    <div className="p-3">
+      <h1>Material desin UI</h1>
+      <div className="flex flex-col">
+        <MaterialButton onClick={() => alert("hello")} variant="outlined">Hello</MaterialButton>
+        <MaterialCheckbox onChange={() => alert("hello check")} label="click me" />
+        <MaterialChipSet>
+          <MaterialChip
+            type="filter"
+            label="Assist with icon"
+            icon={<User className="size-6"/>}
+          />
+
+          
+        </MaterialChipSet>
+
+      </div>
+    </div>
   )
 }
 export default Home;
