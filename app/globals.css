@@ -1,7 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap');
+
 @import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
+
+
 
 @theme inline {
 
@@ -11,6 +15,19 @@
 
   --md-sys-color-surface: theme(colors.white);
   --md-sys-color-on-surface: theme(colors.gray.900);
+
+  --font-google-sans: 'Google Sans', 'sans-serif';
+
+  /* Material Web typefaces */
+  --md-ref-typeface-brand: var(--font-google-sans);
+  --md-ref-typeface-plain: var(--font-google-sans);
+
+  /* Override specific typescales if needed */
+  --md-sys-typescale-display-font: var(--font-google-sans);
+  --md-sys-typescale-headline-font: var(--font-google-sans);
+  --md-sys-typescale-title-font: var(--font-google-sans);
+  --md-sys-typescale-body-font: var(--font-google-sans);
+  --md-sys-typescale-label-font: var(--font-google-sans);
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
