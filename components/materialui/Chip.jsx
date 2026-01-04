@@ -12,10 +12,6 @@ import "@material/web/icon/icon.js";
 
 
 
-/* ------------------------------------------------------------------ */
-/* Chip set                                                           */
-/* ------------------------------------------------------------------ */
-
 const ChipSetBase = createComponent({
   tagName: "md-chip-set",
   elementClass: MdChipSet,

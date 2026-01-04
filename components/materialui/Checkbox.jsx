@@ -38,6 +38,7 @@ const Checkbox = createComponent({
  * @param {Function} [props.onChange]
  * @param {Function} [props.onInput]
  * @param {string} [props.className]
+ * @param {string} [props.label]
  */
 
 export function MaterialCheckbox({
@@ -54,6 +55,7 @@ export function MaterialCheckbox({
       className={className}
       aria-label={ariaLabel || label}
       touch-target={touchTarget}
+      label = ""
       {...props}
     />
   );
@@ -61,7 +63,7 @@ export function MaterialCheckbox({
   // ✅ If label prop is provided → wrap
   if (label) {
     return (
-      <label className="inline-flex items-center gap-3 cursor-pointer">
+      <label className="flex items-center gap-2 cursor-pointer h-6 w-fit">
         {checkbox}
         {label}
       </label>
