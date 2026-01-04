@@ -37,7 +37,7 @@ function Home() {
         { answer: "umair khan", isCorrect: false },
       ],
     },
-    // add more questions here
+
   ];
 
   const currentQuestion = quiz[currentIndex];
