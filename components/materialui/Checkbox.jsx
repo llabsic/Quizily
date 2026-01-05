@@ -18,7 +18,6 @@ const Checkbox = createComponent({
   },
 });
 
-
 /**
  * MaterialCheckbox
  *
@@ -55,7 +54,7 @@ export function MaterialCheckbox({
       className={className}
       aria-label={ariaLabel || label}
       touch-target={touchTarget}
-      label = ""
+      label=""
       {...props}
     />
   );
