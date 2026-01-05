@@ -37,6 +37,23 @@ function Home() {
         { answer: "umair khan", isCorrect: false },
       ],
     },
+        {
+      id: "q-4",
+      question: "Why's there a bug in the code?",
+      options: [
+        { answer: "Never paid attention", isCorrect: false },
+        { answer: "Didn't know about it", isCorrect: true },
+        { answer: "It doesn't matter", isCorrect: false },
+      ],
+    },    {
+      id: "q-5",
+      question: "Were u able to find the bug?",
+      options: [
+        { answer: "No submit btn", isCorrect: false },
+        { answer: "First mcq can't be marked because of material UI", isCorrect: true },
+        { answer: "Data could have been efficient", isCorrect: false },
+      ],
+    },
 
   ];
 
