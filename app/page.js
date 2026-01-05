@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { MaterialRadio } from "@/components/materialui/Radio";
-import { MaterialButton } from "@/components/materialui/Button";
+import { RadioGrp, RadioItm } from "@/components/custom/radio";
+import { Button } from "@/components/ui/button";
 
 function Home() {
   const [answers, setAnswers] = useState({});
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [submitted, setSubmitted] = useState(false);
+  const [score, setScore] = useState(0);
 
   const quiz = [
     {
@@ -61,63 +63,98 @@ function Home() {
   ];
 
   const currentQuestion = quiz[currentIndex];
+  const selectedAnswer = answers[currentQuestion.id];
 
   const handleNext = () => {
     if (currentIndex < quiz.length - 1) {
-      setCurrentIndex(currentIndex + 1);
+      setCurrentIndex((prev) => prev + 1);
     }
   };
 
   const handlePrev = () => {
     if (currentIndex > 0) {
-      setCurrentIndex(currentIndex - 1);
+      setCurrentIndex((prev) => prev - 1);
     }
   };
 
-  return (
-    <div className="p-3 flex flex-col gap-4">
-      <h1>Material design UI</h1>
+  const handleSubmit = () => {
+    let correct = 0;
 
-      <form key={currentQuestion.id} className="flex flex-col gap-2">
-        <h2>{currentQuestion.question}</h2>
-        {currentQuestion.options.map((option, idx) => (
-          <MaterialRadio
-            key={`${currentQuestion.id}-${idx}`}
-            name={currentQuestion.id}
-            value={option.answer}
-            checked={answers[currentQuestion.id] === option.answer}
-            onChange={(e) =>
-              setAnswers({
-                ...answers,
-                [currentQuestion.id]: e.target.value,
-              })
-            }
-            className="font-google"
-          >
-            {option.answer.toString()}
-          </MaterialRadio>
-        ))}
-      </form>
+    quiz.forEach((q) => {
+      const selected = answers[q.id];
+      const correctAnswer = q.options.find((o) => o.isCorrect)?.answer;
+
+      if (selected === correctAnswer) {
+        correct++;
+      }
+    });
+
+    setScore(correct);
+    setSubmitted(true);
+  };
+
+  return (
+    <div className="p-3 flex flex-col gap-4 max-w-xl">
+      <h1 className="font-google text-lg">Custom Radio UI Quiz</h1>
+
+      <div className="flex flex-col gap-3">
+        <h2 className="font-semibold">{currentQuestion.question}</h2>
+
+        <RadioGrp
+          value={selectedAnswer ?? ""}
+          onValueChange={(value) =>
+            setAnswers((prev) => ({
+              ...prev,
+              [currentQuestion.id]: value,
+            }))
+          }
+        >
+          {currentQuestion.options.map((option, idx) => (
+            <RadioItm
+              key={`${currentQuestion.id}-${idx}`}
+              value={option.answer}
+            >
+              {option.answer}
+            </RadioItm>
+          ))}
+        </RadioGrp>
+      </div>
 
       <div className="flex gap-2 mt-4">
-        <MaterialButton
-          variant="tonal"
-          className="font-google"
+        <Button
           onClick={handlePrev}
           disabled={currentIndex === 0}
         >
           Previous
-        </MaterialButton>
+        </Button>
 
-        <MaterialButton
-          variant="filled"
-          className="font-google"
-          onClick={handleNext}
-          disabled={currentIndex === quiz.length - 1}
-        >
-          Next
-        </MaterialButton>
+        {currentIndex === quiz.length - 1 ? (
+          <Button
+            onClick={handleSubmit}
+            disabled={!selectedAnswer || submitted}
+          >
+            Submit
+          </Button>
+        ) : (
+          <Button
+            onClick={handleNext}
+            disabled={!selectedAnswer}
+          >
+            Next
+          </Button>
+        )}
       </div>
+
+      {submitted && (
+        <div className="mt-4 p-4 border border-stone-950 rounded-md bg-muted">
+          <h3 className="font-semibold">
+            Result: {score} / {quiz.length}
+          </h3>
+          <p className="text-sm text-muted-foreground">
+            You answered {score} questions correctly.
+          </p>
+        </div>
+      )}
     </div>
   );
 }
