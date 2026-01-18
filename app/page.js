@@ -175,21 +175,21 @@ export default function Home() {
         <Button
           onClick={handlePrev}
           disabled={currentIndex === 0}
-        >
+          >
           Previous
         </Button>
 
         {currentIndex === quiz.length - 1 ? (
           <Button
-            onClick={handleSubmit}
-            disabled={!selectedAnswer || submitted}
+          onClick={handleSubmit}
+          disabled={!selectedAnswer || submitted}
           >
             Submit
           </Button>
         ) : (
           <Button
-            onClick={handleNext}
-            disabled={!selectedAnswer}
+          onClick={handleNext}
+          disabled={!selectedAnswer}
           >
             Next
           </Button>
