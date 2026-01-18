@@ -94,11 +94,17 @@ function Home() {
   };
 
   return (
-    <div className="p-3 flex flex-col gap-4 max-w-xl">
-      <h1 className="font-google text-lg">Custom Radio UI Quiz</h1>
+    <div className="w-screen h-screen flex items-center justify-center">
 
-      <div className="flex flex-col gap-3">
+      <div className="overflow-hidden border border-stone-800 shadow-lg w-4/5 rounded-md">
+    <div className="p-3 flex flex-col gap-4 ">
+      <h1 className="font-google text-lg font-bold">Custom Radio UI Quiz</h1>
+      <div className="flex justify-between">
         <h2 className="font-semibold">{currentQuestion.question}</h2>
+      <div>time and score</div>
+      </div>
+      <div className="flex flex-col items-center w-full rounded-md gap-3">
+      <div className="w-[80%] p-1 flex items-center">
 
         <RadioGrp
           value={selectedAnswer ?? ""}
@@ -108,37 +114,39 @@ function Home() {
               [currentQuestion.id]: value,
             }))
           }
-        >
+          >
           {currentQuestion.options.map((option, idx) => (
             <RadioItm
-              key={`${currentQuestion.id}-${idx}`}
-              value={option.answer}
+            key={`${currentQuestion.id}-${idx}`}
+            value={option.answer}
+            
             >
               {option.answer}
             </RadioItm>
           ))}
         </RadioGrp>
+        </div>
       </div>
 
       <div className="flex gap-2 mt-4">
         <Button
           onClick={handlePrev}
           disabled={currentIndex === 0}
-        >
+          >
           Previous
         </Button>
 
         {currentIndex === quiz.length - 1 ? (
           <Button
-            onClick={handleSubmit}
-            disabled={!selectedAnswer || submitted}
+          onClick={handleSubmit}
+          disabled={!selectedAnswer || submitted}
           >
             Submit
           </Button>
         ) : (
           <Button
-            onClick={handleNext}
-            disabled={!selectedAnswer}
+          onClick={handleNext}
+          disabled={!selectedAnswer}
           >
             Next
           </Button>
@@ -156,6 +164,9 @@ function Home() {
         </div>
       )}
     </div>
+
+</div>    
+</div>
   );
 }
 

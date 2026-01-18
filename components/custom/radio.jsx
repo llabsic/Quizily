@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils"
 export const RadioGrp = ({ children, value, onValueChange }) => {
   return (
     <RadioGroup
-      className="w-full max-w-96 gap-0 -space-y-px rounded-md shadow-xs"
+      className="w-full gap-10 grid sm:grid-cols-2 rounded-md shadow-xs"
       value={value}
       onValueChange={onValueChange}
     >
@@ -22,8 +22,7 @@ export const RadioItm = ({ children, value, className, ...props }) => {
     <div
       className="border-input has-data-[state=checked]:border-primary/50
                  has-data-[state=checked]:bg-accent relative flex flex-col
-                 gap-4 border p-4 outline-none first:rounded-t-md
-                 last:rounded-b-md has-data-[state=checked]:z-10"
+                 gap-4 border-2 p-4 outline-none rounded-md has-data-[state=checked]:z-10"
     >
       <div className="flex items-center gap-2">
         <RadioGroupItem
