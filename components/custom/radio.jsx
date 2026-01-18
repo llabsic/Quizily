@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils"
 export const RadioGrp = ({ children, value, onValueChange }) => {
   return (
     <RadioGroup
-      className="w-full gap-10 grid sm:grid-cols-2 rounded-md shadow-xs"
+      className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4 rounded-md shadow-xs"
       value={value}
       onValueChange={onValueChange}
     >

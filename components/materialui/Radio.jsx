@@ -38,7 +38,7 @@ export function MaterialRadio({
     ...props
 }) {
     return (
-        <label className="flex items-center gap-2 cursor-pointer h-6 w-fit">
+        <label className="flex flex-wrap items-center gap-2 rounded-md cursor-pointer h-6 w-fit">
             <MaterialRadioBase
                 name={name}
                 value={value}
@@ -50,5 +50,12 @@ export function MaterialRadio({
             />
             {children}
         </label>
+    );
+}
+export function MCQGrid({ children }) {
+    return (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+            {children}
+        </div>
     );
 }
