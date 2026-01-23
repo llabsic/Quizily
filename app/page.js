@@ -16,7 +16,7 @@ export default function Home() {
   const [score, setScore] = useState(0);
   const [timeleft, setTimeleft] = useState(QuestionTime);
   const [loading,setloading]=useState(false);
-  const topic="General Knowledge";
+  const topic="Computer Science";
 
   useEffect(()=>{
     handleQuizData(topic);
@@ -80,7 +80,7 @@ export default function Home() {
     setTimeleft(QuestionTime);
 
   const interval = setInterval(() => {
-    setTimeleft((prev) => {
+    if (quiz.length > 0){ setTimeleft((prev) => {
       if (prev <= 1) {
         clearInterval(interval);
         handleNext();
@@ -88,16 +88,17 @@ export default function Home() {
       }
       return prev - 1;
     });
-  }, 1000);
+  }}, 1000);
 
   return () => clearInterval(interval);
-}, [currentIndex]);
+}, [currentIndex,quiz]);
 
   const handleQuizData = async(topic)=>{
     try{
       setloading(true);
       const newQuiz= await QuizService.generate(topic);
       setQuiz(newQuiz);
+      console.log("Fetched Quiz:",newQuiz);
 
     }catch(err){
       console.error("Error fetching quiz:",err);
@@ -137,10 +138,13 @@ export default function Home() {
 
     <div className="p-3 flex flex-col gap-4 rounded-2xl overflow-hidden border-2 shadow-lg w-2/3 ">
       <h1 className="font-google text-lg">Custom Radio UI Quiz</h1>
-
+      <h2 className="font-semibold text-md">Topic: {topic} questions:{quiz.length>0 && currentQuestion.questionNumber}/{quiz.length}</h2>
       <div className="flex flex-col gap-3">
         <div className="flex items-center gap-2 p-2 rounded-md justify-between">
-        <h2 className="font-semibold">{currentQuestion?currentQuestion.question:null}</h2>
+          <div className="flex">
+          <span className="font-extrabold">{quiz.length>0 && currentQuestion.questionNumber})</span>
+          <h2 className="font-semibold">{currentQuestion?currentQuestion.question:null}</h2>
+          </div>
         <div className="font-bold">Time:<span className={timeleft<=5?"text-red-600":"text-green-600"}>
           {timeleft}
           </span>
