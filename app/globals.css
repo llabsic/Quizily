@@ -6,31 +6,10 @@
 @custom-variant dark (&:is(.dark *));
 
 
-
 @theme inline {
-
-  /* Map Tailwind colors → Material system tokens */
-  --md-sys-color-primary: theme(colors.indigo.600);
-  --md-sys-color-on-primary: theme(colors.white);
-
-  --md-sys-color-surface: theme(colors.white);
-  --md-sys-color-on-surface: theme(colors.gray.900);
-
-  --font-google-sans: 'Google Sans', 'sans-serif';
-
-  /* Material Web typefaces */
-  --md-ref-typeface-brand: var(--font-google-sans);
-  --md-ref-typeface-plain: var(--font-google-sans);
-
-  /* Override specific typescales if needed */
-  --md-sys-typescale-display-font: var(--font-google-sans);
-  --md-sys-typescale-headline-font: var(--font-google-sans);
-  --md-sys-typescale-title-font: var(--font-google-sans);
-  --md-sys-typescale-body-font: var(--font-google-sans);
-  --md-sys-typescale-label-font: var(--font-google-sans);
-
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --font-google: "Google Sans", "sans serif";
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --color-sidebar-ring: var(--sidebar-ring);
@@ -147,5 +126,6 @@
 
   body {
     @apply bg-background text-foreground;
+    font-family: 'Google Sans', 'sans-serif';
   }
 }
