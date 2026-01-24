@@ -15,7 +15,7 @@ export const RadioGrp = ({ children, value, onValueChange }) => {
   )
 }
 
-export const RadioItm = ({ children, value, className, ...props }) => {
+export const RadioItm = ({ children, value, className, disabled, ...props }) => {
   const id = useId()
 
   return (
@@ -29,6 +29,7 @@ export const RadioItm = ({ children, value, className, ...props }) => {
           id={id}
           value={value}
           className={cn("after:absolute after:inset-0", className)}
+          disabled={disabled}
           {...props}
         />
         <Label htmlFor={id} className="cursor-pointer">
