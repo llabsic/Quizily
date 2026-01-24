@@ -8,16 +8,16 @@ import { QuizService } from "@/lib/QuizService";
 import QuizLoader from "@/components/custom/QuizLoader";
 
 export default function Home() {
-  const QuestionTime=30; // seconds per question
+  const QuestionTime = 30; // seconds per question
 
-  const [answers, setAnswers]=useState({});
-  const [quiz, setQuiz]=useState([]);
-  const [currentIndex, setCurrentIndex]=useState(0);
-  const [submitted, setSubmitted]=useState(false);
-  const [score, setScore]=useState(0);
-  const [timeleft, setTimeleft]=useState(QuestionTime);
-  const [loading, setloading]=useState(false);
-  const [maxIndexReached, setMaxIndexReached]=useState(0);
+  const [answers, setAnswers] = useState({});
+  const [quiz, setQuiz] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [submitted, setSubmitted] = useState(false);
+  const [score, setScore] = useState(0);
+  const [timeleft, setTimeleft] = useState(QuestionTime);
+  const [loading, setloading] = useState(false);
+  const [maxIndexReached, setMaxIndexReached] = useState(0);
 
   const topic = "General Knowledge";
 
@@ -25,7 +25,7 @@ export default function Home() {
     handleQuizData(topic);
   }, []);
 
-  const devMode=true; // boolean
+  const devMode = true; // boolean
 
   const devQuiz = [
     {
@@ -117,17 +117,13 @@ export default function Home() {
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center px-3 sm:px-6">
-      <div
-        className="w-full sm:w-4/5 lg:w-2/3 xl:w-1/2 p-4 sm:p-6 flex flex-col gap-4 rounded-xl sm:rounded-2xl border-2 shadow-lg bg-background"
-      >
+      <div className="w-full sm:w-4/5 lg:w-2/3 xl:w-1/2 p-4 sm:p-6 flex flex-col gap-4 rounded-xl sm:rounded-2xl border-2 shadow-lg bg-background">
         <h1 className="font-google text-base sm:text-lg text-center sm:text-left">
           Custom Radio UI Quiz
         </h1>
 
         <div className="flex flex-col gap-3">
-          <div
-            className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 p-2 rounded-md"
-          >
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 p-2 rounded-md">
             <h2 className="font-semibold text-sm sm:text-base">
               {currentQuestion?.question}
             </h2>
@@ -135,7 +131,7 @@ export default function Home() {
               <div className="font-bold text-sm sm:text-base bg-muted p-1 rounded-md">
                 <span
                   className={`ml-1 ${
-                    timeleft <= 5 ? "text-red-600" : "text-green-600"
+                    timeleft <= 5 ? "text-red-500" : "text-green-500"
                   }`}
                 >
                   {timeleft + "s "}
