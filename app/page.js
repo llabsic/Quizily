@@ -131,7 +131,7 @@ export default function Home() {
               <div className="font-bold text-sm sm:text-base bg-muted p-1 rounded-md">
                 <span
                   className={`ml-1 ${
-                    timeleft <= 5 ? "text-red-500" : "text-green-500"
+                    timeleft <= 5 ? "text-red-500" : timeleft <= 15 ? "text-orange-500" : "text-green-500"
                   }`}
                 >
                   {timeleft + "s "}
