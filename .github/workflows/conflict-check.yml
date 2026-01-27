@@ -2,6 +2,7 @@ name: PR Merge Status with Badge Alerts
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened]
     branches:
       - main
 
@@ -37,30 +38,32 @@ jobs:
           script: |
             const owner = context.repo.owner;
             const repo = context.repo.repo;
-            const pull_number = context.payload.pull_request.number;
+
+            // Get PR number reliably
+            const pull_number = context.issue.number; // works for pull_request events
 
             let body = '';
             if (steps.merge_check.outputs.mergeable === 'true') {
               body = `
-> ![success]
-> **Branch is applicable to merge by QUDDUS or Owners**
+> ![success](https://img.shields.io/badge/✅-Ready%20to%20Merge-brightgreen)
+> **Approved by QUDDUS**
 `;
             } else {
               body = `
-> ![warning]
+> ![warning](https://img.shields.io/badge/⚠️-Merge%20Conflicts-red)
 > This PR cannot be merged cleanly into \`main\`.
 > Please resolve all conflicts.
 `;
             }
 
-            // Check for existing bot comment
+            // Find existing comment by the bot
             const comments = await github.issues.listComments({
               owner,
               repo,
               issue_number: pull_number
             });
 
-            const existing = comments.data.find(c => c.user.type === 'Bot' && 
+            const existing = comments.data.find(c => c.user.type === 'Bot' &&
               (c.body.includes('Ready to Merge') || c.body.includes('Merge Conflicts')));
 
             if (existing) {
