@@ -20,6 +20,7 @@ export async function POST(req) {
       items: {
         type: SchemaType.OBJECT,
         properties: {
+          questionNumber: { type: SchemaType.INTEGER },
           question: { type: SchemaType.STRING },
           options: {
             type: SchemaType.ARRAY,

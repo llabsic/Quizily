@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useEffect } from "react";
 import { QuizService } from "@/lib/QuizService";
 import QuizLoader from "@/components/custom/QuizLoader";
+import Result from "@/components/custom/custom_components/Result";
 
 export default function Home() {
   const QuestionTime = 30; // seconds per question
@@ -16,10 +17,8 @@ export default function Home() {
   const [submitted, setSubmitted] = useState(false);
   const [score, setScore] = useState(0);
   const [timeleft, setTimeleft] = useState(QuestionTime);
-  const [loading, setloading] = useState(false);
-  const [maxIndexReached, setMaxIndexReached] = useState(0);
-
-  const topic = "General Knowledge";
+  const [loading,setloading]=useState(false);
+  const topic="Computer Science";
 
   useEffect(() => {
     handleQuizData(topic);
