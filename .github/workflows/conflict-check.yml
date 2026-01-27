@@ -1,4 +1,4 @@
-name: Check Branch Conflicts
+name: PR Merge Status with Badge Alerts
 
 on:
   pull_request:
@@ -6,15 +6,15 @@ on:
       - main
 
 jobs:
-  check-conflicts:
+  check-merge-status:
     runs-on: ubuntu-latest
 
     permissions:
       pull-requests: write
-      contents: read
+      contents: write
 
     steps:
-      - name: Checkout pull request branch
+      - name: Checkout PR branch
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -22,13 +22,16 @@ jobs:
       - name: Fetch base branch
         run: git fetch origin main
 
-      - name: Check for merge conflicts with main
+      - name: Check for merge conflicts
         id: merge_check
         run: |
-          git merge --no-commit --no-ff origin/main || exit 1
+          if git merge --no-commit --no-ff origin/main; then
+            echo "mergeable=true" >> $GITHUB_OUTPUT
+          else
+            echo "mergeable=false" >> $GITHUB_OUTPUT
+          fi
 
-      - name: Request changes and reviewers if conflicts are detected
-        if: failure()
+      - name: Post merge status comment with badge
         uses: actions/github-script@v7
         with:
           script: |
@@ -36,25 +39,44 @@ jobs:
             const repo = context.repo.repo;
             const pull_number = context.payload.pull_request.number;
 
-            // Request changes review
-            await github.pulls.createReview({
+            let body = '';
+            if (steps.merge_check.outputs.mergeable === 'true') {
+              body = `
+> ![success]
+> **Branch is applicable to merge by QUDDUS or Owners**
+`;
+            } else {
+              body = `
+> ![warning]
+> This PR cannot be merged cleanly into \`main\`.
+> Please resolve all conflicts.
+`;
+            }
+
+            // Check for existing bot comment
+            const comments = await github.issues.listComments({
               owner,
               repo,
-              pull_number,
-              event: "REQUEST_CHANGES",
-              body: `
-              > ![warning](https://img.shields.io/badge/⚠️-Warning-red) **Merge Conflicts Detected**
-              > This PR cannot be merged cleanly into `main`.
-              > Please resolve all conflicts.
-              `
+              issue_number: pull_number
             });
 
-            // Request review from repository owners
-            await github.pulls.requestReviewers({
-              owner,
-              repo,
-              pull_number,
-              reviewers: [
-                "quddus-larik"
-              ]
-            });
+            const existing = comments.data.find(c => c.user.type === 'Bot' && 
+              (c.body.includes('Ready to Merge') || c.body.includes('Merge Conflicts')));
+
+            if (existing) {
+              // Update existing comment
+              await github.issues.updateComment({
+                owner,
+                repo,
+                comment_id: existing.id,
+                body: body
+              });
+            } else {
+              // Create new comment
+              await github.issues.createComment({
+                owner,
+                repo,
+                issue_number: pull_number,
+                body: body
+              });
+            }
