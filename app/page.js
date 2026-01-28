@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import {useEffect } from "react";
 import { QuizService } from "@/lib/QuizService";
 import QuizLoader from "@/components/custom/QuizLoader";
+import Result from "@/components/custom/custom_components/Result";
 
 export default function Home() {
   const QuestionTime= 30; // seconds per question
@@ -82,6 +83,11 @@ export default function Home() {
   const interval = setInterval(() => {
     if (quiz.length > 0){ setTimeleft((prev) => {
       if (prev <= 1) {
+        if(currentIndex >= quiz.length - 1){
+          clearInterval(interval);
+          setSubmitted(true);
+          return 0;
+        }
         clearInterval(interval);
         handleNext();
         return QuestionTime;
@@ -142,10 +148,10 @@ export default function Home() {
       <div className="flex flex-col gap-3">
         <div className="flex items-center gap-2 p-2 rounded-md justify-between">
           <div className="flex">
-          <span className="font-extrabold">{quiz.length>0 && currentQuestion.questionNumber})</span>
+          {quiz.length>0 && <span className="font-extrabold">Q{currentQuestion.questionNumber})</span>}
           <h2 className="font-semibold">{currentQuestion?currentQuestion.question:null}</h2>
           </div>
-        <div className="font-bold">Time:<span className={timeleft<=5?"text-red-600":"text-green-600"}>
+        <div className="font-bold">Time:<span className={timeleft<=5?"text-red-600":timeleft<10?"text-yellow-300":"text-green-600"}>
           {timeleft}
           </span>
           </div>
