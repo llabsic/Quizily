@@ -17,6 +17,7 @@ export default function Home() {
   const [submitted, setSubmitted] = useState(false);
   const [score, setScore] = useState(0);
   const [timeleft, setTimeleft] = useState(QuestionTime);
+  const [maxIndexReached, setMaxIndexReached] = useState(0);
   const [loading,setloading]=useState(false);
   const topic="Computer Science";
 
