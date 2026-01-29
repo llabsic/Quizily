@@ -48,9 +48,7 @@ export default function Home() {
   ];
 
   const currentQuestion = quiz[currentIndex];
-  const selectedAnswer = currentQuestion
-    ? answers[currentQuestion.id]
-    : null;
+  const selectedAnswer = currentQuestion ? answers[currentQuestion.id] : null;
 
   const isLocked = currentIndex < maxIndexReached;
 
@@ -135,90 +133,90 @@ export default function Home() {
   if (loading) return <QuizLoader />;
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center px-3 sm:px-6">
-      <div className="w-full sm:w-4/5 lg:w-2/3 xl:w-1/2 p-4 sm:p-6 flex flex-col gap-4 rounded-xl border-2 shadow-lg bg-background">
-        <h1 className="font-google text-base sm:text-lg">
-          Custom Radio UI Quiz
-        </h1>
+      <div className="min-h-screen w-full flex items-center justify-center px-3 sm:px-6">
+        <div className="w-full sm:w-4/5 lg:w-2/3 xl:w-1/2 p-4 sm:p-6 flex flex-col gap-4 rounded-xl border-2 shadow-lg bg-background">
+          <h1 className="font-google text-base sm:text-lg">
+            Custom Radio UI Quiz
+          </h1>
 
-        <div className="flex flex-col gap-3">
-          <div className="flex justify-between items-center p-2 rounded-md">
-            <h2 className="font-semibold text-sm sm:text-base">
-              {currentQuestion?.question}
-            </h2>
-            {!isLocked && !submitted && (
-              <div className="font-bold bg-muted p-1 rounded-md">
-                <span
-                  className={`ml-1 ${
-                    timeleft <= 5 ? "text-red-500" : timeleft <= 15 ? "text-orange-500" : "text-green-500"
-                  }`}
-                >
-                  {timeleft + "s "}
-                </span>
-                left
-              </div>
+          <div className="flex flex-col gap-3">
+            <div className="flex justify-between items-center p-2 rounded-md">
+              <h2 className="font-semibold text-sm sm:text-base">
+                {currentQuestion?.question}
+              </h2>
+              {!isLocked && !submitted && (
+                <div className="font-bold bg-muted p-1 rounded-md">
+                  <span
+                    className={`ml-1 ${
+                      timeleft <= 5
+                        ? "text-red-500"
+                        : timeleft <= 15
+                          ? "text-orange-500"
+                          : "text-green-500"
+                    }`}
+                  >
+                    {timeleft + "s "}
+                  </span>
+                  left
+                </div>
+              )}
+            </div>
+
+            {/* OPTIONS */}
+            {currentQuestion && (
+              <RadioGrp
+                key={currentQuestion.id}
+                value={selectedAnswer || ""}
+                onValueChange={(value) => {
+                  if (submitted || isLocked) return;
+                  setAnswers((prev) => ({
+                    ...prev,
+                    [currentQuestion.id]: value,
+                  }));
+                }}
+                className="w-full space-y-3"
+              >
+                {currentQuestion.options.map((option, idx) => (
+                  <RadioItm key={idx} value={option.answer} disabled={isLocked}>
+                    {option.answer}
+                  </RadioItm>
+                ))}
+              </RadioGrp>
             )}
           </div>
 
-          {/* OPTIONS */}
-          {currentQuestion && (
-            <RadioGrp
-              key={currentQuestion.id}
-              value={selectedAnswer || ""}
-              onValueChange={(value) => {
-                if (submitted || isLocked) return;
-                setAnswers((prev) => ({
-                  ...prev,
-                  [currentQuestion.id]: value,
-                }));
-              }}
-              className="w-full space-y-3"
-            >
-              {currentQuestion.options.map((option, idx) => (
-                <RadioItm
-                  key={idx}
-                  value={option.answer}
-                  disabled={isLocked}
-                >
-                  {option.answer}
-                </RadioItm>
-              ))}
-            </RadioGrp>
-          )}
-        </div>
-
-        {/* BUTTONS */}
-        <div className="flex gap-2 mt-4">
-          <Button onClick={handlePrev} disabled={currentIndex === 0}>
-            Previous
-          </Button>
-
-          {currentIndex === quiz.length - 1 ? (
-            <Button
-              onClick={handleSubmit}
-              disabled={submitted || !selectedAnswer}
-            >
-              Submit
+          {/* BUTTONS */}
+          <div className="flex gap-2 mt-4">
+            <Button onClick={handlePrev} disabled={currentIndex === 0}>
+              Previous
             </Button>
-          ) : (
-            <Button
-              onClick={handleNext}
-              disabled={submitted || !selectedAnswer}
-            >
-              Next
-            </Button>
-          )}
-        </div>
 
-        {/* RESULT */}
-        {submitted && (
-          <div className="mt-4 p-4 border rounded-md bg-muted">
-            <h3 className="font-semibold">
-              Result: {score} / {quiz.length}
-            </h3>
+            {currentIndex === quiz.length - 1 ? (
+              <Button
+                onClick={handleSubmit}
+                disabled={submitted || !selectedAnswer}
+              >
+                Submit
+              </Button>
+            ) : (
+              <Button
+                onClick={handleNext}
+                disabled={submitted || !selectedAnswer}
+              >
+                Next
+              </Button>
+            )}
           </div>
-        )}
+
+          {/* RESULT */}
+          {submitted && (
+            <div className="mt-4 p-4 border rounded-md bg-muted">
+              <h3 className="font-semibold">
+                Result: {score} / {quiz.length}
+              </h3>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
   );
 }
