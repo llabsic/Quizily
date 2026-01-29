@@ -147,13 +147,13 @@ export default function QuizBlock({ questions, QuestionTime = 3 }) {
 
     setMaxIndexReached((prev) => Math.max(prev, currentIndex + 1));
 
-    if (currentIndex < quiz.length - 1) {
+    if (currentIndex < quiz.length) {
       setCurrentIndex((prev) => prev + 1);
     }
   };
 
   const handleNext = () => {
-    if (currentIndex < quiz.length - 1) {
+    if (currentIndex < quiz.length) {
       setMaxIndexReached((prev) => Math.max(prev, currentIndex + 1));
       setCurrentIndex((prev) => prev + 1);
     }
@@ -259,7 +259,7 @@ export default function QuizBlock({ questions, QuestionTime = 3 }) {
 
           <Button onClick={handleNext}>Next</Button>
 
-          {!submitted && currentIndex === quiz.length - 1 ? (
+          {!submitted && currentIndex === quiz.length ? (
             <Button onClick={handleSubmit}>Submit</Button>
           ) : null}
         </div>
