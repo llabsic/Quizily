@@ -1,10 +1,9 @@
 "use client"
 
 import { Button } from "@/components/ui/button";
-import { useSupabase } from "@/hooks/useSupabase"
+import { supabase } from "@/lib/supabase"
 
 export default function Page(){
-    const { supabase } = useSupabase();
 
     const handleSigIn = () =>{
         supabase.auth.signInWithOAuth({

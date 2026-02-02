@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { supabase } from '@/hooks/useSupabase';
+import { supabase } from '@/lib/supabase';
 
 export default function UserInfo() {
   const [user, setUser] = useState<any>(null)
