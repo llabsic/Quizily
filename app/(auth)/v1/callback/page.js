@@ -1,27 +1,34 @@
-import { useSupabase } from "@/hooks/useSupabase"
+"use client";
 
-export default async function Page() {
-    const { supabase } = useSupabase();
-    
-    const { data: { user }, error: userError } = await supabase.auth.getUser();
-    
-    
-    console.log(user);
-    
-    const { error } = await supabase
-        .from("users")
-        .upsert({
-            id: user?.id,
-            username: "example_user",
-            email: user?.email,
-            user_type: "standard"
-        });
-    
-    if (error) console.error("Insert error:", error);
+import { useEffect } from "react";
+import { supabase } from "@/lib/supabase";
+import { redirect } from "next/navigation";
 
-    return (
-        <div className="h-svh w-full grid place-content-center">
-            <span>Processing complete for user: {user?.email}</span>
-        </div>
-    )
+export default function AuthCallback() {
+  useEffect(() => {
+    const handleUser = async () => {
+      // 1️⃣ Get session
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      if (!session?.user) return;
+      console.log("session:", session);
+      console.log("user:", session?.user);
+      
+      const user = session.user;
+
+      await supabase.from("users").upsert({
+        id: user.id,
+        email: user.email,
+        username: user.user_metadata.full_name,
+        user_type: "user",
+      });
+    };
+
+    handleUser();
+    redirect("/")
+  }, []);
+
+  return <p>Logging you in...</p>;
 }
