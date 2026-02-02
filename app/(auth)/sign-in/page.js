@@ -10,7 +10,7 @@ export default function Page(){
         supabase.auth.signInWithOAuth({
             provider: 'google',
             options: {
-                redirectTo: "http://localhost:3000/" // v1/callback
+                redirectTo: "http://localhost:3000/v1/callback" // v1/callback
             }
         })
     }
