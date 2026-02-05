@@ -5,7 +5,6 @@ import { supabase } from "@/lib/supabase"
 
 export default function Page(){
 
-
     const handleSigIn = () =>{
         supabase.auth.signInWithOAuth({
             provider: 'google',
