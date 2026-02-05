@@ -50,6 +50,17 @@ export default function QuizBlock({ questions, QuestionTime = 3 }) {
         { answer: "quddus", isCorrect: true },
       ],
     },
+    
+    {
+      id: "q-4",
+      question: "what is wrong spelling of Quddus?",
+      options: [
+        { answer: "quddis", isCorrect: false },
+        { answer: "qudoos", isCorrect: false },
+        { answer: "qidis", isCorrect: false },
+        { answer: "quddus", isCorrect: true },
+      ],
+    },
   ];
 
   const currentQuestion = quiz[currentIndex];
