@@ -31,15 +31,22 @@ import { authUser } from "@/lib/supabase";
 import { History } from "lucide-react";
 import { BookCopy } from "lucide-react";
 import { Settings } from "lucide-react";
+import { AppWindowMac } from "lucide-react";
 
 export function AppSidebar({ ...props }) {
   const initialData = {
     user: {
-      name: "lixy",
-      email: "lixy@example.com",
-      avatar: "/avatars/shadcn.jpg",
+      name: "quizi",
+      email: "quizi@example.com",
+      avatar: "https://api.dicebear.com/9.x/initials/svg?seed=quizi",
     },
     navMain: [
+      {
+        title: "Dashboard",
+        url: "/dashboard",
+        icon: AppWindowMac,
+        isActive: true,
+      },
       {
         title: "Courses",
         url: "/dashboard/courses",
