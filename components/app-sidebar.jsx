@@ -48,8 +48,8 @@ export function AppSidebar({ ...props }) {
         isActive: true,
       },
       {
-        title: "Courses",
-        url: "/dashboard/courses",
+        title: "Levels",
+        url: "/dashboard/levels",
         icon: BookCopy,
         isActive: true,
       },
