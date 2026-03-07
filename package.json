@@ -29,6 +29,7 @@
     "react-dom": "19.2.3",
     "react-redux": "^9.2.0",
     "supabase-js": "link:/@supabase/supabase-js",
+    "swr": "^2.4.1",
     "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {
