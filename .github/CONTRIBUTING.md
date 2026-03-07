@@ -60,6 +60,7 @@ See our [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md). Be respectful, constructive, a
 **Environment**
 - Node: v20.x or higher
 - Next.js: 16.x 
+- Package Manager: PNPM
 - OS: macOS/Windows/Linux
 - Browser: Chrome/Safari/Firefox/Edge
 
@@ -95,7 +96,7 @@ Clear description of what should happen
 # Clone and install
 git clone https://github.com/YOUR_USERNAME/forked-quizily.git 
 cd quizily
-npm ci
+pnpm ci
 ```
 Add Enviroments Variables
 ```bash
@@ -109,11 +110,11 @@ SUPABASE_ANON_KEY=...
 ```
 Run Development Mode
 ```bash
-npm run dev
+pnpm run dev
 ```
 Test Everything
 ```bash
-npm test
-npm run lint
-npm run build
+pnpm test
+pnpm run lint
+pnpm run build
 ```
