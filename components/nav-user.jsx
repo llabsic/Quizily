@@ -43,7 +43,7 @@ import {
   DialogTitle
 } from "@/components/ui/dialog"
 import { Button } from "./ui/button"
-import { supabase } from "@/lib/supabase"
+import { supabase } from "@/lib/supabase/server"
 import { useRouter } from "next/navigation"
 
 export function NavUser({ user }) {

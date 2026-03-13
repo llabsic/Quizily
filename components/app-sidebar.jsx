@@ -27,7 +27,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { useEffect, useState } from "react";
-import { authUser } from "@/lib/supabase";
+import { authUser } from "@/lib/supabase/server";
 import { History } from "lucide-react";
 import { BookCopy } from "lucide-react";
 import { Settings } from "lucide-react";
