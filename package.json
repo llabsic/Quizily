@@ -17,6 +17,7 @@
     "@material/web": "^2.4.1",
     "@mynaui/icons-react": "^0.4.10",
     "@phosphor-icons/react": "^2.1.10",
+    "@reduxjs/toolkit": "^2.12.0",
     "@supabase/ssr": "^0.9.0",
     "@supabase/supabase-js": "^2.93.3",
     "class-variance-authority": "^0.7.1",
