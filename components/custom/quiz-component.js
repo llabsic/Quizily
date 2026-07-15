@@ -1,11 +1,10 @@
 "use client";
 
-import {useRef, useState} from "react";
-import {Description, Label, Radio, RadioGroup, Button} from "@heroui/react";
-import {useEffect} from "react";
+import { useRef, useState, useEffect } from "react";
+import { RadioGroup, Radio, Button } from "@heroui/react";
 import QuizLoader from "@/components/custom/quiz-loader";
 
-export default function QuizBlock({questions, QuestionTime = 3}) {
+export default function QuizBlock({ questions, QuestionTime = 16 }) {
     const [quiz, setQuiz] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [answers, setAnswers] = useState({});
@@ -23,56 +22,53 @@ export default function QuizBlock({questions, QuestionTime = 3}) {
             id: "q-1",
             question: "what is correct spelling of Quddus?",
             options: [
-                {answer: "quddis", isCorrect: false},
-                {answer: "qudoos", isCorrect: false},
-                {answer: "qidis", isCorrect: false},
-                {answer: "quddus", isCorrect: true},
+                { answer: "quddis", isCorrect: false },
+                { answer: "qudoos", isCorrect: false },
+                { answer: "qidis", isCorrect: false },
+                { answer: "quddus", isCorrect: true },
             ],
         },
         {
             id: "q-2",
             question: "what is correct spelling of Quddus?",
             options: [
-                {answer: "quddis", isCorrect: false},
-                {answer: "qudoos", isCorrect: false},
-                {answer: "qidis", isCorrect: false},
-                {answer: "quddus", isCorrect: true},
+                { answer: "quddis", isCorrect: false },
+                { answer: "qudoos", isCorrect: false },
+                { answer: "qidis", isCorrect: false },
+                { answer: "quddus", isCorrect: true },
             ],
         },
         {
             id: "q-3",
             question: "what is correct spelling of Quddus?",
             options: [
-                {answer: "quddis", isCorrect: false},
-                {answer: "qudoos", isCorrect: false},
-                {answer: "qidis", isCorrect: false},
-                {answer: "quddus", isCorrect: true},
+                { answer: "quddis", isCorrect: false },
+                { answer: "qudoos", isCorrect: false },
+                { answer: "qidis", isCorrect: false },
+                { answer: "quddus", isCorrect: true },
             ],
         },
-
         {
             id: "q-4",
             question: "what is wrong spelling of Quddus?",
             options: [
-                {answer: "quddis", isCorrect: false},
-                {answer: "qudoos", isCorrect: false},
-                {answer: "qidis", isCorrect: false},
-                {answer: "quddus", isCorrect: true},
+                { answer: "quddis", isCorrect: false },
+                { answer: "qudoos", isCorrect: false },
+                { answer: "qidis", isCorrect: false },
+                { answer: "quddus", isCorrect: true },
             ],
         },
     ];
 
     const currentQuestion = quiz[currentIndex];
     const selectedAnswer = currentQuestion ? answers[currentQuestion.id] : null;
-
     const isLocked = currentIndex < maxIndexReached;
 
     useEffect(() => {
         const loadQuiz = async () => {
             try {
                 setLoading(true);
-
-                if (Array.isArray(questions) && questions !== undefined) {
+                if (Array.isArray(questions) && questions.length > 0) {
                     setQuiz(questions);
                 } else {
                     setQuiz(devQuiz);
@@ -83,11 +79,9 @@ export default function QuizBlock({questions, QuestionTime = 3}) {
                 setLoading(false);
             }
         };
-
         loadQuiz();
-    }, []);
+    }, [questions]);
 
-    // Timing Logic
     useEffect(() => {
         if (!currentQuestion || submitted) return;
 
@@ -107,13 +101,9 @@ export default function QuizBlock({questions, QuestionTime = 3}) {
         }, 1000);
 
         return () => clearInterval(timerRef.current);
-    }, [currentQuestion, submitted]);
+    }, [currentQuestion, submitted, QuestionTime]);
 
-    const buildAnswerStructure = (
-        questionData,
-        selectedAnswer,
-        isSkipped = false,
-    ) => {
+    const buildAnswerStructure = (questionData, selectedAnswer, isSkipped = false) => {
         return {
             id: questionData.id,
             question: questionData.question,
@@ -126,17 +116,13 @@ export default function QuizBlock({questions, QuestionTime = 3}) {
         };
     };
 
-    const updateTotalAnswer = (
-        questionData,
-        selectedAnswer,
-        isSkipped = false,
-    ) => {
+    const updateTotalAnswer = (questionData, selectedAnswer, isSkipped = false) => {
         setTotalAnswer((prev) => {
             const existingIndex = prev.findIndex((a) => a.id === questionData.id);
             const answerStructure = buildAnswerStructure(
                 questionData,
                 selectedAnswer,
-                isSkipped,
+                isSkipped
             );
             if (existingIndex >= 0) {
                 const updated = [...prev];
@@ -152,11 +138,8 @@ export default function QuizBlock({questions, QuestionTime = 3}) {
             ...prev,
             [currentQuestion.id]: prev[currentQuestion.id] || "skipped",
         }));
-
         updateTotalAnswer(currentQuestion, null, true);
-
         setMaxIndexReached((prev) => Math.max(prev, currentIndex + 1));
-
         if (currentIndex < quiz.length - 1) {
             setCurrentIndex((prev) => prev + 1);
         }
@@ -177,7 +160,6 @@ export default function QuizBlock({questions, QuestionTime = 3}) {
 
     const handleSubmit = () => {
         let correct = 0;
-
         const finalAnswers = quiz.map((q) => {
             const correctAnswer = q.options.find((o) => o.isCorrect)?.answer;
             const userAnswer = answers[q.id];
@@ -190,105 +172,85 @@ export default function QuizBlock({questions, QuestionTime = 3}) {
                 return buildAnswerStructure(
                     q,
                     isSkipped ? null : userAnswer,
-                    isSkipped,
+                    isSkipped
                 );
             }
-            console.info(totalAnswer);
             return existingAnswer;
         });
 
         setTotalAnswer(finalAnswers);
         setScore(correct);
         setSubmitted(true);
-        clearInterval(timerRef.current);
+        if (timerRef.current) clearInterval(timerRef.current);
     };
 
-    if (loading) return <QuizLoader/>;
+    if (loading) return <QuizLoader />;
 
     return (
-        <>
-            <div
-                className="w-full sm:w-4/5 lg:w-2/3 xl:w-1/2 p-4 sm:p-6 flex flex-col gap-4 rounded-xl border-2 shadow-lg bg-background">
+        <div className="w-full sm:w-4/5 lg:w-2/3 xl:w-1/2 p-4 sm:p-6 flex flex-col gap-4 rounded-xl border-2 shadow-lg bg-background">
+            <div className="flex justify-between items-center">
                 <h1 className="font-google text-base sm:text-lg">
                     Custom Radio UI Quiz
                 </h1>
+                {!submitted && (
+                    <span className="text-sm font-semibold">
+                        Time Left: {timeleft}s
+                    </span>
+                )}
+            </div>
 
-                <div className="flex flex-col gap-3">
-                    <div className="flex justify-between items-center p-2 rounded-md">
-                        <h2 className="font-semibold text-sm sm:text-base">
-                            {currentQuestion?.question}
-                        </h2>
-                        {!isLocked && !submitted && (
-                            <div className="font-bold bg-muted p-1 rounded-md">
-                <span
-                    className={`ml-1 ${
-                        timeleft <= 5
-                            ? "text-red-500"
-                            : timeleft <= 15
-                                ? "text-orange-500"
-                                : "text-green-500"
-                    }`}
-                >
-                  {timeleft + "s "}
-                </span>
-                                left
-                            </div>
-                        )}
-                    </div>
-
-                    {/* OPTIONS */}
-                    {currentQuestion && (
-                        <RadioGroup>
+            <div className="flex flex-col gap-3">
+                {currentQuestion && (
+                    <>
+                        <h2 className="text-md font-medium">{currentQuestion.question}</h2>
+                        <RadioGroup
                             key={currentQuestion.id}
                             value={selectedAnswer || ""}
                             onChange={(value) => {
-                            if (submitted || isLocked) return;
-                            setAnswers((prev) => ({
-                                ...prev,
-                                [currentQuestion.id]: value,
-                            }));
-                            updateTotalAnswer(currentQuestion, value, false);
-                        }}
-                            className="w-full space-y-3"
-                            >
-
+                                if (submitted || isLocked) return;
+                                setAnswers((prev) => ({
+                                    ...prev,
+                                    [currentQuestion.id]: value,
+                                }));
+                                updateTotalAnswer(currentQuestion, value, false);
+                            }}
+                        >
                             {currentQuestion.options.map((option, idx) => (
                                 <Radio key={idx} value={option.answer} isDisabled={isLocked}>
                                     <Radio.Content>
                                         <Radio.Control>
-                                            <Radio.Indicator/>
+                                            <Radio.Indicator />
                                         </Radio.Control>
                                         {option.answer}
                                     </Radio.Content>
                                 </Radio>
                             ))}
                         </RadioGroup>
-                    )}
-                </div>
-
-                {/* BUTTONS */}
-                <div className="flex gap-2 mt-4">
-                    {submitted && (
-                        <Button onClick={handlePrev} disabled={currentIndex === 0}>
-                            Previous
-                        </Button>
-                    )}
-
-
-                    {!submitted && currentIndex === quiz.length - 1 ? (
-                        <Button onClick={handleSubmit}>Submit</Button>
-                    ) : <Button onClick={handleNext}>Next</Button>}
-                </div>
-
-                {/* RESULT */}
-                {submitted && (
-                    <div className="mt-4 p-4 border rounded-md bg-muted">
-                        <h3 className="font-semibold">
-                            Result: {score} / {quiz.length}
-                        </h3>
-                    </div>
+                    </>
                 )}
             </div>
-        </>
+
+            <div className="flex gap-2 mt-4">
+                {submitted && (
+                    <Button onClick={handlePrev} disabled={currentIndex === 0}>
+                        Previous
+                    </Button>
+                )}
+
+                {!submitted && currentIndex === quiz.length - 1 ? (
+                    <Button onClick={handleSubmit}>Submit</Button>
+                ) : (
+                    <Button onClick={handleNext}>Next</Button>
+                )}
+            </div>
+
+            {submitted && (
+                <div className="mt-4 p-4 border rounded-md bg-muted">
+                    <h3 className="font-semibold">
+                        Result: {score} / {quiz.length}
+                    </h3>
+                </div>
+            )}
+        </div>
     );
 }
