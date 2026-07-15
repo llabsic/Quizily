@@ -21,7 +21,7 @@ export function MinimaDashboard({ children }) {
   const icons = getMenuItems();
 
   return (
-    <div className="w-full min-h-screen flex bg-background-secondary dark:bg-background-inverse/2">
+    <div className="w-full min-h-svh flex bg-background-secondary dark:bg-background-inverse/2">
       <FabButton className="bottom-5 right-5 z-10 p-6 rounded-2xl fixed" />
       <aside className="hidden lg:flex lg:w-20 lg:fixed lg:h-screen py-8 flex-col items-center justify-between">
         <Link href="/dashboard">
@@ -62,7 +62,7 @@ export function MinimaDashboard({ children }) {
         <FooterSidebar />
       </aside>
 
-      <main className="flex-1 min-w-0 p-5 bg-background m-1 lg:m-3 rounded-3xl shadow-sm lg:ml-[92px] space-y-3">
+      <main className="flex-1 min-h-screen min-w-0 p-5 bg-background m-1 lg:m-3 rounded-3xl shadow-sm lg:ml-[92px] space-y-3">
         <div className="w-full flex justify-between items-center h-10">
           <div className="flex gap-2 items-center justify-start">
             <BreadcrumbsMinor />

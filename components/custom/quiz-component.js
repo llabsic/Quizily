@@ -1,10 +1,11 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
-import { RadioGroup, Radio, Button } from "@heroui/react";
+import {useRef, useState, useEffect} from "react";
+import {RadioGroup, Radio, Button, Label, Chip, Description} from "@heroui/react";
 import QuizLoader from "@/components/custom/quiz-loader";
+import {ArrowLeft, ArrowRight, Send} from "@mynaui/icons-react";
 
-export default function QuizBlock({ questions, QuestionTime = 16 }) {
+export default function QuizBlock({questions, QuestionTime = 16}) {
     const [quiz, setQuiz] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [answers, setAnswers] = useState({});
@@ -14,6 +15,7 @@ export default function QuizBlock({ questions, QuestionTime = 16 }) {
     const [submitted, setSubmitted] = useState(false);
     const [score, setScore] = useState(0);
     const [loading, setLoading] = useState(false);
+    const [hasNavigatedForward, setHasNavigatedForward] = useState(false);
 
     const timerRef = useRef(null);
 
@@ -22,40 +24,40 @@ export default function QuizBlock({ questions, QuestionTime = 16 }) {
             id: "q-1",
             question: "what is correct spelling of Quddus?",
             options: [
-                { answer: "quddis", isCorrect: false },
-                { answer: "qudoos", isCorrect: false },
-                { answer: "qidis", isCorrect: false },
-                { answer: "quddus", isCorrect: true },
+                {answer: "quddis", isCorrect: false},
+                {answer: "qudoos", isCorrect: false},
+                {answer: "qidis", isCorrect: false},
+                {answer: "quddus", isCorrect: true},
             ],
         },
         {
             id: "q-2",
             question: "what is correct spelling of Quddus?",
             options: [
-                { answer: "quddis", isCorrect: false },
-                { answer: "qudoos", isCorrect: false },
-                { answer: "qidis", isCorrect: false },
-                { answer: "quddus", isCorrect: true },
+                {answer: "quddis", isCorrect: false},
+                {answer: "qudoos", isCorrect: false},
+                {answer: "qidis", isCorrect: false},
+                {answer: "quddus", isCorrect: true},
             ],
         },
         {
             id: "q-3",
             question: "what is correct spelling of Quddus?",
             options: [
-                { answer: "quddis", isCorrect: false },
-                { answer: "qudoos", isCorrect: false },
-                { answer: "qidis", isCorrect: false },
-                { answer: "quddus", isCorrect: true },
+                {answer: "quddis", isCorrect: false},
+                {answer: "qudoos", isCorrect: false},
+                {answer: "qidis", isCorrect: false},
+                {answer: "quddus", isCorrect: true},
             ],
         },
         {
             id: "q-4",
             question: "what is wrong spelling of Quddus?",
             options: [
-                { answer: "quddis", isCorrect: false },
-                { answer: "qudoos", isCorrect: false },
-                { answer: "qidis", isCorrect: false },
-                { answer: "quddus", isCorrect: true },
+                {answer: "quddis", isCorrect: false},
+                {answer: "qudoos", isCorrect: false},
+                {answer: "qidis", isCorrect: false},
+                {answer: "quddus", isCorrect: true},
             ],
         },
     ];
@@ -149,6 +151,7 @@ export default function QuizBlock({ questions, QuestionTime = 16 }) {
         if (currentIndex < quiz.length - 1) {
             setMaxIndexReached((prev) => Math.max(prev, currentIndex + 1));
             setCurrentIndex((prev) => prev + 1);
+            setHasNavigatedForward(true);
         }
     };
 
@@ -184,25 +187,24 @@ export default function QuizBlock({ questions, QuestionTime = 16 }) {
         if (timerRef.current) clearInterval(timerRef.current);
     };
 
-    if (loading) return <QuizLoader />;
+    if (loading) return <QuizLoader/>;
 
     return (
-        <div className="w-full sm:w-4/5 lg:w-2/3 xl:w-1/2 p-4 sm:p-6 flex flex-col gap-4 rounded-xl border-2 shadow-lg bg-background">
-            <div className="flex justify-between items-center">
-                <h1 className="font-google text-base sm:text-lg">
-                    Custom Radio UI Quiz
-                </h1>
-                {!submitted && (
-                    <span className="text-sm font-semibold">
-                        Time Left: {timeleft}s
-                    </span>
-                )}
+        <div>
+            <div className="flex justify-between items-center mb-2">
+                {!submitted && (<Chip variant={"primary"} color={"accent"} size={"lg"}>{timeleft}s</Chip>)}
             </div>
 
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col">
                 {currentQuestion && (
                     <>
-                        <h2 className="text-md font-medium">{currentQuestion.question}</h2>
+                        <div className={"flex justify-between items-center"}>
+                            <div className={"flex flex-col"}>
+                                <Label className="text-base font-medium">{currentQuestion.question}</Label>
+                                <Description>This Quiz about the spelling of someone name</Description>
+                            </div>
+                            <Chip variant={"primary"} color={"accent"} size={"lg"} className={"font-mono"}>{currentIndex+1}/{quiz.length}</Chip>
+                        </div>
                         <RadioGroup
                             key={currentQuestion.id}
                             value={selectedAnswer || ""}
@@ -214,12 +216,14 @@ export default function QuizBlock({ questions, QuestionTime = 16 }) {
                                 }));
                                 updateTotalAnswer(currentQuestion, value, false);
                             }}
+                            className={"grid grid-cols-2 gap-x-4"}
                         >
                             {currentQuestion.options.map((option, idx) => (
-                                <Radio key={idx} value={option.answer} isDisabled={isLocked}>
-                                    <Radio.Content>
-                                        <Radio.Control>
-                                            <Radio.Indicator />
+                                <Radio key={idx} value={option.answer} isDisabled={isLocked} className={"min-w-sm"}>
+                                    <Radio.Content
+                                        className={"bg-surface-tertiary p-6 w-full rounded-xl ring-0 ring-accent transition hover:ring-2"}>
+                                        <Radio.Control className={"size-5"}>
+                                            <Radio.Indicator/>
                                         </Radio.Control>
                                         {option.answer}
                                     </Radio.Content>
@@ -231,16 +235,20 @@ export default function QuizBlock({ questions, QuestionTime = 16 }) {
             </div>
 
             <div className="flex gap-2 mt-4">
-                {submitted && (
-                    <Button onClick={handlePrev} disabled={currentIndex === 0}>
+                {currentIndex > 0 && (
+                    <Button variant={"secondary"} onClick={handlePrev} disabled={!submitted && hasNavigatedForward}>
+                        <ArrowLeft />
                         Previous
                     </Button>
                 )}
 
                 {!submitted && currentIndex === quiz.length - 1 ? (
-                    <Button onClick={handleSubmit}>Submit</Button>
+                    <Button onClick={handleSubmit}>Submit <Send /></Button>
                 ) : (
-                    <Button onClick={handleNext}>Next</Button>
+                    <Button onClick={handleNext}>
+                        Next
+                        <ArrowRight />
+                    </Button>
                 )}
             </div>
 

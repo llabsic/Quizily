@@ -14,9 +14,9 @@ const googleSansFlex = Google_Sans_Flex({
 });
 
 export const metadata = {
-  title: "Collaric",
+  title: "Quizily",
   description:
-    "Collaric is a large scale academic management system developer by llabsic Inc.",
+    "bla bla",
 };
 
 export default function RootLayout({
@@ -37,7 +37,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${googleSansFlex.variable} antialiased`}
+        className={`${geistSans.variable} ${googleSansFlex.variable} antialiased bg-background-secondary`}
       >
         <Providers>{children}</Providers>
       </body>
