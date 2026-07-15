@@ -155,7 +155,7 @@ body {
     @apply text-sm leading-5 text-gray-500;
   }
   .card {
-    @apply ring-0 hover:ring-2 ring-accent transition-all active:ring-1;
+    @apply ring-0 hover:ring-2 ring-accent transition-all;
   }
   .button--tertiary {
     @apply text-default-foreground;
