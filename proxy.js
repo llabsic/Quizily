@@ -41,9 +41,7 @@ export async function proxy(request) {
     return response
   }
 
-  if(!session?.user) {
-    return NextResponse.redirect(new URL('/sign-in', request.url))
-  }
+  
 
   return response
 }
