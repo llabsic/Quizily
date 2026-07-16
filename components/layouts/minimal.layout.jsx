@@ -12,6 +12,7 @@ import { FooterSidebar } from "../custom/footer-sidebar";
 import { AvaterProfile } from "../custom/profile.minor";
 import { BreadcrumbsMinor } from "../custom/breadcrumbs.minor";
 import SettingDrawerButton from "../custom/setting-drawer.minor";
+import { Star } from "@mynaui/icons-react"
 import { FabButton } from "../custom/fab-button";
 
 export function MinimaDashboard({ children }) {
@@ -68,7 +69,7 @@ export function MinimaDashboard({ children }) {
             <BreadcrumbsMinor />
           </div>
           <div className="items-center justify-between gap-2 hidden lg:flex">
-
+            <Button size={"lg"} className={"bg-yellow-500"} ><Star />2,006</Button>
             <ButtonGroup>
               <NotificationButton />
               <SettingDrawerButton />
