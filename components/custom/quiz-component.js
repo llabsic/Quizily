@@ -1,9 +1,9 @@
 "use client";
 
 import {useRef, useState, useEffect} from "react";
-import {RadioGroup, Radio, Button, Label, Chip, Description} from "@heroui/react";
+import {RadioGroup, Radio, Button, Label, Chip, Description, Surface} from "@heroui/react";
 import QuizLoader from "@/components/custom/quiz-loader";
-import {ArrowLeft, ArrowRight, Send} from "@mynaui/icons-react";
+import {ArrowLeft, ArrowRight, Send, AlarmClock} from "@mynaui/icons-react";
 
 export default function QuizBlock({questions, QuestionTime = 16}) {
     const [quiz, setQuiz] = useState([]);
@@ -187,12 +187,26 @@ export default function QuizBlock({questions, QuestionTime = 16}) {
         if (timerRef.current) clearInterval(timerRef.current);
     };
 
+    const formatTime = (seconds) => {
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+    };
+
+    const getTimerColor = (seconds) => {
+        if (seconds <= 30) return "danger";
+        if (seconds <= 120) return "warning";
+        return "accent";
+    };
+
     if (loading) return <QuizLoader/>;
 
     return (
         <div>
             <div className="flex justify-between items-center mb-2">
-                {!submitted && (<Chip variant={"primary"} color={"accent"} size={"lg"}>{timeleft}s</Chip>)}
+                <Chip variant={submitted ? "secondary" : "primary"}
+                      color={submitted ? "secondary" : getTimerColor(timeleft)} size={"lg"}><AlarmClock
+                    className={"size-5"}/> {formatTime(timeleft)}</Chip>
             </div>
 
             <div className="flex flex-col">
@@ -203,8 +217,25 @@ export default function QuizBlock({questions, QuestionTime = 16}) {
                                 <Label className="text-base font-medium">{currentQuestion.question}</Label>
                                 <Description>This Quiz about the spelling of someone name</Description>
                             </div>
-                            <Chip variant={"primary"} color={"accent"} size={"lg"} className={"font-mono"}>{currentIndex+1}/{quiz.length}</Chip>
+                            <Chip variant={"primary"} color={"accent"} size={"lg"}
+                                  className={"font-plus-jakarta font-bold"}>{currentIndex + 1}/{quiz.length}</Chip>
                         </div>
+                        {submitted && (
+                            <Surface className="flex min-w-[320px] items-center justify-between rounded-3xl p-4 my-2"
+                                     variant="default">
+                                <div className="flex flex-col">
+
+                                    <h3 className="text-base font-semibold text-foreground">Result</h3>
+                                    <p className="text-sm text-muted">
+                                        You correct {score} out of {quiz.length}.
+                                    </p>
+                                </div>
+                                <div className={"flex items-center justify-center gap-2"}>
+                                    <Button size={"lg"} variant={"secondary"}>Retry</Button>
+                                    <Button size={"lg"}>Insights<ArrowRight/></Button>
+                                </div>
+                            </Surface>
+                        )}
                         <RadioGroup
                             key={currentQuestion.id}
                             value={selectedAnswer || ""}
@@ -221,8 +252,9 @@ export default function QuizBlock({questions, QuestionTime = 16}) {
                             {currentQuestion.options.map((option, idx) => (
                                 <Radio key={idx} value={option.answer} isDisabled={isLocked} className={"min-w-sm"}>
                                     <Radio.Content
-                                        className={"bg-surface-tertiary p-6 w-full rounded-xl ring-0 ring-accent transition hover:ring-2"}>
-                                        <Radio.Control className={"size-5"}>
+                                        className={"bg-surface-tertiary p-6 w-full rounded-xl ring-0 ring-accent transition hover:ring-2" +
+                                            "data-[selected=true]:ring-accent data-[selected=true]:ring-2"}>
+                                        <Radio.Control className={"size-6"}>
                                             <Radio.Indicator/>
                                         </Radio.Control>
                                         {option.answer}
@@ -237,28 +269,22 @@ export default function QuizBlock({questions, QuestionTime = 16}) {
             <div className="flex gap-2 mt-4">
                 {currentIndex > 0 && (
                     <Button variant={"secondary"} onClick={handlePrev} disabled={!submitted && hasNavigatedForward}>
-                        <ArrowLeft />
+                        <ArrowLeft/>
                         Previous
                     </Button>
                 )}
 
                 {!submitted && currentIndex === quiz.length - 1 ? (
-                    <Button onClick={handleSubmit}>Submit <Send /></Button>
-                ) : (
+                    <Button onClick={handleSubmit}>Submit <Send/></Button>
+                ) : (!submitted || currentIndex < quiz.length - 1) && (
                     <Button onClick={handleNext}>
                         Next
-                        <ArrowRight />
+                        <ArrowRight/>
                     </Button>
                 )}
             </div>
 
-            {submitted && (
-                <div className="mt-4 p-4 border rounded-md bg-muted">
-                    <h3 className="font-semibold">
-                        Result: {score} / {quiz.length}
-                    </h3>
-                </div>
-            )}
+
         </div>
     );
 }
