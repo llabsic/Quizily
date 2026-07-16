@@ -22,7 +22,7 @@ export function MinimaDashboard({ children }) {
 
   return (
     <div className="w-full min-h-svh flex bg-background-secondary dark:bg-background-inverse/2">
-      <FabButton className="bottom-5 right-5 z-10 p-6 rounded-2xl fixed" />
+      {/*<FabButton className="bottom-5 right-5 z-10 p-6 rounded-2xl fixed" />*/}
       <aside className="hidden lg:flex lg:w-20 lg:fixed lg:h-screen py-8 flex-col items-center justify-between">
         <Link href="/dashboard">
           <LayoutDashboard
