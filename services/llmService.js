@@ -1,0 +1,61 @@
+import Groq from "groq-sdk";
+
+const groq = new Groq();
+
+const model = "meta-llama/llama-4-scout-17b-16e-instruct";
+
+
+const quizSchema = {
+    type: "json_schema",
+    json_schema: {
+        name: "fbise_quiz",
+        strict: true, 
+        schema: {
+            type: "object",
+            properties: {
+                quiz: {
+                    type: "array",
+                    items: {
+                        type: "object",
+                        properties: {
+                            question: { type: "string" },
+                            options: {
+                                type: "array",
+                                items: { type: "string" },
+                                minItems: 4,
+                                maxItems: 4
+                            },
+                            correctAnswer: { type: "string" },
+                            explanation: { type: "string" }
+                        },
+                        required: ["question", "options", "correctAnswer", "explanation"],
+                        additionalProperties: false
+                    }
+                }
+            },
+            required: ["quiz"],
+            additionalProperties: false
+        }
+    }
+};
+
+
+const SYSTEM_PROMPT = `Generate exactly 10 high-quality MCQ questions on the topic the user provides in the prompt. Follow the FBISE (Federal Board Pakistan) SLO-based examination style. Ensure questions target Conceptual Understanding and Application levels.`;
+
+export async function LLM({ topic }) {
+    const response = await groq.chat.completions.create({
+    model: model,
+    messages: [
+        { role: "system", content: SYSTEM_PROMPT },
+        { role: "user", content: topic },
+    ],
+    response_format: quizSchema
+    });
+
+
+    const rawContent = response.choices[0].message.content || "{}";
+    const output = JSON.parse(rawContent);
+    
+    console.log(output);
+    return output.quiz; 
+}
