@@ -13,9 +13,8 @@ export async function POST(req) {
       return NextResponse.json({ success: false, error: "Invalid topic" }, { status: 400 });
     }
 
-    // 1. Define the Strict Schema (FBISE MCQ Style)
     const schema = {
-      description: "A list of 10 FBISE-style multiple choice questions",
+      description: "a list of 10 programming multiple choice questions based on full stackdevelopment.",
       type: SchemaType.ARRAY,
       items: {
         type: SchemaType.OBJECT,
@@ -65,7 +64,7 @@ export async function POST(req) {
   } catch (error) {
     console.error("Gemini Error:", error);
     return NextResponse.json(
-      { success: false, error: "AI generation failed", error: error.message },
+      { success: false, error: error.message },
       { status: 500 }
     );
   }
