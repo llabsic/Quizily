@@ -1,10 +1,13 @@
 import QuizBlock from "@/components/custom/quiz-component";
 import {templatesData} from "@/config/data";
 import {Avatar, Card, Label} from "@heroui/react";
+import {TextHeader} from "@/components/custom/heading.minor";
 
 export default function Page(){
 
     return(
+        <div className={"space-y-3"}>
+            <TextHeader title={"Templates"} description={"Discover MCQs templates created by others"} />
         <div className={"grid grid-cols-4 w-full gap-2"}>
             {
                 templatesData.map((item,index)=>(
@@ -26,6 +29,7 @@ export default function Page(){
                     </Card>
                 ))
             }
+        </div>
         </div>
     )
 }

@@ -1,18 +1,44 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { QuizService } from '@/lib/QuizService'
 
-const initialState = { value: 0 } // or temporary
+export const generateQuiz = createAsyncThunk(
+  'quiz/generateQuiz',
+  async (topics) => {
+    const quiz = await QuizService.generate(topics)
+    return quiz
+  }
+)
 
-const counterSlice = createSlice({
+const initialState = {
+  quizes: [],
+  loading: false,
+  error: null,
+}
+
+const quizSlice = createSlice({
   name: 'quiz',
   initialState,
   reducers: {
-    increment: ( _state ) => { _state.value += 1 },
-    decrement: ( _state ) => { _state.value -= 1 },
-    incrementByAmount: ( _state, _action) => {
-      _state.value += _action.payload
-    }
+    setQuizes: (_state, _action) => {
+      _state.quizes = _action.payload
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(generateQuiz.pending, (state) => {
+        state.loading = true
+        state.error = null
+      })
+      .addCase(generateQuiz.fulfilled, (state, action) => {
+        state.loading = false
+        state.quizes = action.payload
+      })
+      .addCase(generateQuiz.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.error.message
+      })
   }
 })
 
-export const { increment, decrement, incrementByAmount } = counterSlice.actions
-export default counterSlice.reducer
+export const { setQuizes } = quizSlice.actions
+export default quizSlice.reducer

@@ -77,7 +77,9 @@ export function MinimaDashboard({ children }) {
             <AvaterProfile />
           </div>
         </div>
+        <div className={"py-4"}>
         {children}
+        </div>
       </main>
     </div>
   );
