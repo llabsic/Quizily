@@ -1,6 +1,6 @@
 "use client"
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@heroui/react";
 import { supabase } from "@/lib/supabase/server"
 
 export default function Page(){

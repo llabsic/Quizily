@@ -167,18 +167,19 @@ export default function QuizBlock({questions, QuestionTime = 16}) {
             const correctAnswer = q.options.find((o) => o.isCorrect)?.answer;
             const userAnswer = answers[q.id];
 
-            if (userAnswer === correctAnswer) correct++;
-
             const existingAnswer = totalAnswer.find((a) => a.id === q.id);
-            if (!existingAnswer) {
-                const isSkipped = userAnswer === "skipped" || !userAnswer;
-                return buildAnswerStructure(
-                    q,
-                    isSkipped ? null : userAnswer,
-                    isSkipped
-                );
+            if (existingAnswer) {
+                if (userAnswer === correctAnswer) correct++;
+                return existingAnswer;
             }
-            return existingAnswer;
+
+            const isSkipped = userAnswer === "skipped" || !userAnswer;
+            if (!isSkipped && userAnswer === correctAnswer) correct++;
+            return buildAnswerStructure(
+                q,
+                isSkipped ? null : userAnswer,
+                isSkipped
+            );
         });
 
         setTotalAnswer(finalAnswers);
