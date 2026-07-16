@@ -1,0 +1,7 @@
+export function QuizlityIcon({ className, mono }) {
+  return (
+      <svg width="979" height="1016" viewBox="0 0 979 1016" fill="none" className={className} xmlns="http://www.w3.org/2000/svg">
+        <path d="M386.129 557.052L289.31 457.408L232.988 512.168L357.97 640.798L386.131 669.78L414.292 640.798L887 154.295V643.745L622.001 920H92V367.492L363.854 96H834.113L386.129 557.052Z" fill={mono? "black": "#FF4800"}/>
+      </svg>
+  );
+}
