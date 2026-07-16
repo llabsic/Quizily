@@ -1,20 +1,15 @@
 import { settings } from "@/config/settings";
 import {
-  Avatar,
   Button,
   ButtonGroup,
-  Card,
   Description,
   Drawer,
   Header,
-  Kbd,
-  ListBox,
-  Separator,
-  Surface,
   Label,
 } from "@heroui/react";
-import { CogTwo, Pencil, PlusSquare, Trash, User } from "@mynaui/icons-react";
+import { CogTwo } from "@mynaui/icons-react";
 import { CaretRightIcon } from "@phosphor-icons/react";
+import React from "react";
 
 export default function SettingDrawerButton() {
   return (
@@ -32,9 +27,8 @@ export default function SettingDrawerButton() {
               </Description>
             </Drawer.Header>
             <Drawer.Body className="px-0">
-
               {settings.map((itm, idx) => (
-                <>
+                <React.Fragment key={`${itm.title.toLowerCase().trim()}-${idx}`}>
                   <Header>{itm.title}</Header>
                   {itm.menu.length > 0 && (
                     <ButtonGroup
@@ -57,14 +51,13 @@ export default function SettingDrawerButton() {
                       ))}
                     </ButtonGroup>
                   )}
-                </>
+                </React.Fragment>
               ))}
             </Drawer.Body>
             <Drawer.Footer>
               <Button slot="close" variant="secondary">
-                Cancel
+                Close
               </Button>
-              <Button slot="close">Confirm</Button>
             </Drawer.Footer>
           </Drawer.Dialog>
         </Drawer.Content>
