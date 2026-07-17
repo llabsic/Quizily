@@ -1,6 +1,6 @@
 import Groq from "groq-sdk";
 
-const groq = new Groq();
+const groq = new Groq({ apiKey: process.env.GROK_API_KEY });
 
 const model = "meta-llama/llama-4-scout-17b-16e-instruct";
 
