@@ -1,25 +1,17 @@
 import { toast } from "@heroui/react";
 import { supabase } from "@/lib/supabase/client";
 
-type SetNumber = (value: number) => void;
-type SetBoolean = (value: boolean) => void;
-type SetString = (value: string) => void;
-
-export function createSwitchHandler(setItem: SetNumber) {
-  return (id: number) => {
+export function createSwitchHandler(setItem) {
+  return (id) => {
     setItem(id);
   };
 }
 
-export function createIndexedClickHandler(handler: (id: number) => void, id: number) {
+export function createIndexedClickHandler(handler, id) {
   return () => handler(id);
 }
 
-export function createInviteCopyHandler(params: {
-  copyToClipboard: (text: string) => Promise<boolean>;
-  originUrl: string;
-  slug: string;
-}) {
+export function createInviteCopyHandler(params) {
   const { copyToClipboard, originUrl, slug } = params;
 
   return async () => {
@@ -37,13 +29,7 @@ export function createInviteCopyHandler(params: {
   };
 }
 
-export function createJoinInstituteHandler(params: {
-  user: { id: string } | null;
-  institute: { id: string; slug: string } | null;
-  setJoining: SetBoolean;
-  setJoinMessage: SetString;
-  push: (href: string) => void;
-}) {
+export function createJoinInstituteHandler(params) {
   const { user, institute, setJoining, setJoinMessage, push } = params;
 
   return async () => {

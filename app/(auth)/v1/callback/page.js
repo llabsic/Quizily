@@ -1,54 +1,89 @@
 "use client";
 
-import { useEffect } from "react";
-import { supabase } from "@/lib/supabase/server";
-import { useRouter } from "next/navigation"; 
+import { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabase/client";
+import { useRouter } from "next/navigation";
+
 export default function AuthCallback() {
   const router = useRouter();
+  const [status, setStatus] = useState("Verifying authentication...");
 
   useEffect(() => {
     const handleUser = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+      try {
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
 
-      if (!session?.user) return;
-      const user = session.user;
+        if (sessionError) {
+          setStatus("Authentication error. Please try again.");
+          return;
+        }
 
-      await supabase.from("users").upsert({
-        id: user.id,
-        email: user.email,
-        username: user.user_metadata.full_name,
-        user_type: "user",
-      }, { onConflict: 'id' });
+        if (!session?.user) {
+          setStatus("No session found. Redirecting to login...");
+          router.push("/login");
+          return;
+        }
 
-     
-      const { data: existingProfile } = await supabase
-        .from("user_profile")
-        .select("user_id")
-        .eq("user_id", user.id)
-        .single();
+        const user = session.user;
 
-      
-      if (!existingProfile) {
-        await supabase.from("user_profile").insert({
-          user_id: user.id,
-          total_correct_quiz: 0,
-          total_mistakes: 0,
-          retakes: 0,
-          exp: 100,
-          achievements: [{ 
-            type: 'Primeval', 
-            year: new Date().getUTCFullYear(), 
-            desciption: `A ${new Date().getUTCFullYear()} legacy hero of Quizily.`, 
-            date: new Date().toUTCString() 
-          }]
-        });
+        setStatus("Setting up your account...");
+
+        const { error: upsertError } = await supabase.from("users").upsert({
+          id: user.id,
+          email: user.email,
+          username: user.user_metadata?.full_name || user.email?.split("@")[0] || "user",
+          user_type: "user",
+        }, { onConflict: 'id' });
+
+        if (upsertError) {
+          console.error("User upsert error:", upsertError);
+        }
+
+        setStatus("Checking profile...");
+
+        const { data: existingProfile } = await supabase
+          .from("user_profile")
+          .select("user_id")
+          .eq("user_id", user.id)
+          .single();
+
+        if (!existingProfile) {
+          setStatus("Creating your profile...");
+
+          const { error: profileError } = await supabase.from("user_profile").insert({
+            user_id: user.id,
+            total_correct_quiz: 0,
+            total_mistakes: 0,
+            retakes: 0,
+            exp: 100,
+            achievements: [{
+              type: 'Primeval',
+              year: new Date().getUTCFullYear(),
+              description: `A ${new Date().getUTCFullYear()} legacy hero of Quizily.`,
+              date: new Date().toUTCString()
+            }]
+          });
+
+          if (profileError) {
+            console.error("Profile creation error:", profileError);
+          }
+        }
+
+        setStatus("Redirecting to dashboard...");
+        router.push("/dashboard");
+
+      } catch (error) {
+        console.error("Callback error:", error);
+        setStatus("Something went wrong. Please try again.");
       }
-      
-      router.push("/");
     };
 
     handleUser();
   }, [router]);
 
-  return <p>Logging you in...</p>;
+  return (
+    <div className="min-h-screen w-full flex items-center justify-center">
+      <p>{status}</p>
+    </div>
+  );
 }

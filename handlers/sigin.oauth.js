@@ -1,29 +1,27 @@
-import { supabase } from "@/lib/supabase/client"; // Or use client if in component
-import type { Provider } from "@supabase/supabase-js";
+import { supabase } from "@/lib/supabase/client";
 import { toast } from "@heroui/react";
 import { redirect } from "next/navigation";
 
-export async function SignInWithOAuth(provider: Provider = "google") {
+export async function SignInWithOAuth(provider = "google") {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider,
     options: {
-      redirectTo: `https://collaric.vercel.app/auth/callback`, // Add to Supabase URL config
+      redirectTo: `${window.location.origin}/v1/callback`,
       queryParams: {
         access_type: "offline",
-        prompt: "consent", // Forces fresh login for full scopes
+        prompt: "consent",
       },
     },
   });
 
   if (error) {
     console.error("OAuth error:", error);
-    throw error; // Handle via toast/useState
+    throw error;
   }
 
   return data;
 }
 
-// Usage in component (React/Next.js)
 export const handleGoogleSignIn = async () => {
   try {
     await SignInWithOAuth("google");
