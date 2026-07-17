@@ -11,6 +11,7 @@ const geistSans = Geist({
 const googleSansFlex = Google_Sans_Flex({
   variable: "--font-google-sans-flex",
   subsets: ["latin"],
+  adjustFontFallback: false
 });
 
 export const metadata = {
