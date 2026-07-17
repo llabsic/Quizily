@@ -15,8 +15,8 @@ export default function Page() {
 
     useEffect(() => {
         if (id) {
-            const topic = decodeURIComponent(id);
-            dispatch(generateQuiz({ topic, totalMcqs: 10 }));
+            const topic = "basics html";
+            dispatch(generateQuiz({ topic, totalMcqs: 5 }));
         }
     }, [dispatch, id]);
 
