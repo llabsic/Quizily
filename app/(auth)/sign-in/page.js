@@ -62,7 +62,7 @@ export default function App() {
                         Discover, learn, test, create, leaderboards, rewards and grow with an AI-assisted learning platform.
                     </h1>
                 </div>
-                <Description className="absolute bottom-6 right-6">Copyright © 2026 llabsic</Description>
+                <Description className="absolute bottom-6 right-6">Copyright © { new Date().getFullYear()} llabsic</Description>
             </div>
         </div>
     );
