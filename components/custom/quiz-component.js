@@ -164,17 +164,19 @@ export default function QuizBlock({questions, QuestionTime = 16}) {
     const handleSubmit = () => {
         let correct = 0;
         const finalAnswers = quiz.map((q) => {
-            const correctAnswer = q.options.find((o) => o.isCorrect)?.answer;
             const userAnswer = answers[q.id];
+            const isSkipped = userAnswer === "skipped" || !userAnswer;
+            const isUserCorrect = q.options.some(
+                (o) => o.isCorrect && o.answer === userAnswer
+            );
+
+            if (!isSkipped && isUserCorrect) correct++;
 
             const existingAnswer = totalAnswer.find((a) => a.id === q.id);
             if (existingAnswer) {
-                if (userAnswer === correctAnswer) correct++;
                 return existingAnswer;
             }
 
-            const isSkipped = userAnswer === "skipped" || !userAnswer;
-            if (!isSkipped && userAnswer === correctAnswer) correct++;
             return buildAnswerStructure(
                 q,
                 isSkipped ? null : userAnswer,
