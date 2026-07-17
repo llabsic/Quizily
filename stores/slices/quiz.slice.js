@@ -1,11 +1,32 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { QuizService } from '@/lib/QuizService'
+
+function transformQuiz(rawQuiz) {
+  return rawQuiz.map((q, idx) => ({
+    id: `q-${idx + 1}`,
+    question: q.question,
+    options: q.options.map((opt) => ({
+      answer: opt,
+      isCorrect: opt === q.correctAnswer,
+    })),
+  }))
+}
 
 export const generateQuiz = createAsyncThunk(
   'quiz/generateQuiz',
-  async (topics) => {
-    const quiz = await QuizService.generate(topics)
-    return quiz
+  async ({ topic, totalMcqs = 10 }) => {
+    const response = await fetch('/api/quiz/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ topic, totalMcqs }),
+    })
+
+    const data = await response.json()
+
+    if (!response.ok || !data.success) {
+      throw new Error(data.error || 'Failed to generate quiz')
+    }
+
+    return transformQuiz(data.quiz)
   }
 )
 
