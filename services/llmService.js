@@ -40,9 +40,11 @@ const quizSchema = {
 };
 
 
-const SYSTEM_PROMPT = `Generate exactly 10 high-quality MCQ questions on the topic the user provides in the prompt. Follow the FBISE (Federal Board Pakistan) SLO-based examination style. Ensure questions target Conceptual Understanding and Application levels.`;
 
-export async function LLM({ topic }) {
+export async function LLM({ topic, totalMcqs }) {
+    
+    const SYSTEM_PROMPT = `Generate exactly ${totalMcqs} high-quality MCQ questions on the topic the user provides in the prompt. Follow the FBISE (Federal Board Pakistan) SLO-based examination style. Ensure questions target Conceptual Understanding and Application levels.`;
+    
     const response = await groq.chat.completions.create({
     model: model,
     messages: [

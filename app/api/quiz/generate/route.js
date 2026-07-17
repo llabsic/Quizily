@@ -4,13 +4,13 @@ import { generateQuiz } from "@/services/quizService";
 export async function POST(req) {
 
   try {
-    const { topic } = await req.json();
+    const { topic, totalMcqs } = await req.json();
 
     if (!topic || topic.length > 50) {
       return NextResponse.json({ success: false, error: "Invalid topic" }, { status: 400 });
     }
 
-    const quiz = await generateQuiz(topic)
+    const quiz = await generateQuiz(topic,totalMcqs)
 
     return NextResponse.json({
       success: true,
