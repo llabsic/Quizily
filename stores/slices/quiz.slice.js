@@ -1,14 +1,17 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 function transformQuiz(rawQuiz) {
+  if (!Array.isArray(rawQuiz)) return [];
   return rawQuiz.map((q, idx) => ({
     id: `q-${idx + 1}`,
-    question: q.question,
-    options: q.options.map((opt) => ({
-      answer: opt,
-      isCorrect: opt === q.correctAnswer,
-    })),
-  }))
+    question: q.question || "",
+    options: Array.isArray(q.options)
+      ? q.options.map((opt) => ({
+          answer: typeof opt === "string" ? opt : opt.answer || "",
+          isCorrect: typeof opt === "string" ? opt === q.correctAnswer : !!opt.isCorrect,
+        }))
+      : [],
+  }));
 }
 
 export const generateQuiz = createAsyncThunk(

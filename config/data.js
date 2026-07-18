@@ -4,7 +4,7 @@ import {
   UsersGroup,
 } from "@mynaui/icons-react";
 
-export function getMenuItems(selected?: string | null) {
+export function getMenuItems(selected) {
 
   return [
     { icon: FunnyGhost, title: "Quiz", url: "/dashboard/quiz" },
@@ -27,3 +27,5 @@ export const templatesData = [
   { id: 9, title: "Security Fundamentals", description: "OWASP Top 10, encryption methods, and auth protocols." },
   { id: 10, title: "TypeScript", description: "Static typing, advanced interfaces, and utility types." }
 ];
+
+
