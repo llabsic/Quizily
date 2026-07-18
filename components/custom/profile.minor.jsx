@@ -1,5 +1,6 @@
 import { Avatar, Button, ButtonGroup, Popover } from "@heroui/react";
 import { DribbbleLogoIcon, ThreadsLogoIcon } from "@phosphor-icons/react";
+import {Fire, Gift} from "@mynaui/icons-react";
 
 export function AvaterProfile() {
   return (
@@ -20,14 +21,14 @@ export function AvaterProfile() {
                 <div className="rounded-lg h-12 overflow-hidden">
                   <img
                     className="object-cover object-top w-full"
-                    src="https://images.unsplash.com/photo-1549880338-65ddcdfd017b?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ"
+                    src="https://img.magnific.com/free-photo/abstract-gradient-background-with-grain-texture_84443-2838.jpg?semt=ais_hybrid&w=740&q=80"
                     alt="Mountain"
                   />
                 </div>
                 <Avatar size="lg" className="-mt-6 ml-4 ring-2 ring-white">
                   <Avatar.Image
-                    alt="Sarah Johnson"
-                    src="https://img.heroui.chat/image/avatar?w=400&h=400&u=1"
+                    alt="Alex"
+                    src="/avatars/avatar-1.png"
                   />
                   <Avatar.Fallback>SJ</Avatar.Fallback>
                 </Avatar>
@@ -38,19 +39,22 @@ export function AvaterProfile() {
               </div>
             </div>
           </Popover.Heading>
-          <p className="mt-3 text-sm text-muted">
-            Product designer and creative director. Building beautiful
-            experiences that matter.
-          </p>
-          <div className="mt-2 flex justify-end">
-            <ButtonGroup variant="tertiary">
+          <div className={"w-full grid grid-cols-3 *:bg-accent-soft *:ring-1 *:ring-accent *:rounded-xl h-16 gap-2 mt-2"}>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+          <div className="mt-2 flex justify-between gap-2">
+            <ButtonGroup variant="tertiary" size={"sm"}>
               <Button isIconOnly>
-                <DribbbleLogoIcon />
+                <Gift />
               </Button>
-              <Button isIconOnly>
-                <ThreadsLogoIcon />
+              <Button>
+                <Fire />
+                32
               </Button>
             </ButtonGroup>
+            <Button fullWidth size={"sm"}>Profile</Button>
           </div>
         </Popover.Dialog>
       </Popover.Content>
