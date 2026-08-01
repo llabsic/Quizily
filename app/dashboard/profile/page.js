@@ -1,4 +1,4 @@
-import {Avatar, Button, Chip, Surface, Typography, Label, ProgressBar} from "@heroui/react";
+import {Avatar, Button, Chip, Surface, Typography, Label, ProgressBar, Table, Description} from "@heroui/react";
 import {Controller, Edit, Fire, Flame, WinkGhost, TrendingUp} from "@mynaui/icons-react";
 import {Profile} from "@/config/profile"
 
@@ -77,6 +77,45 @@ export default function Page() {
                                 </div>
                             </Surface>
                         </div>
+                        <div className={"w-full"}>
+                            <div className="mt-2">
+                                <Typography.Heading level={3}>Recent Stats</Typography.Heading>
+                                <Typography.Paragraph>Status of Quizes recently played</Typography.Paragraph>
+                                <Table className={"mt-1"}>
+                                    <Table.ScrollContainer>
+                                        <Table.Content aria-label="Team members" className={"w-full"}>
+                                            <Table.Header>
+                                                <Table.Column isRowHeader>Match</Table.Column>
+                                                <Table.Column>Category</Table.Column>
+                                                <Table.Column>Status</Table.Column>
+                                                <Table.Column>Competitor</Table.Column>
+                                            </Table.Header>
+                                            <Table.Body>
+                                                <Table.Row>
+                                                    <Table.Cell>#1</Table.Cell>
+                                                    <Table.Cell>Tech</Table.Cell>
+                                                    <Table.Cell>
+                                                        <Chip size={"sm"} color={"success"} variant={"primary"}>Won</Chip>
+                                                    </Table.Cell>
+                                                    <Table.Cell>
+                                                        <div className={"flex flex-row gap-1 items-center"}>
+                                                            <Avatar size={"sm"}>
+                                                                <Avatar.Fallback>AE</Avatar.Fallback>
+                                                            </Avatar>
+                                                            <div className={"flex flex-col"}>
+                                                                <Label>Victor</Label>
+                                                                <Description>Rank #1,281</Description>
+                                                            </div>
+                                                        </div>
+                                                    </Table.Cell>
+                                                </Table.Row>
+
+                                            </Table.Body>
+                                        </Table.Content>
+                                    </Table.ScrollContainer>
+                                </Table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -113,39 +152,43 @@ export default function Page() {
                             <Label>Top Friends</Label>
                             <div className={"flex items-center justify-center h-full gap-1 w-full"}>
                                 <Avatar size={"md"} className={"mt-2"}>
-                                    <Avatar.Image src={"/avatars/avatar-2.png"} />
+                                    <Avatar.Image src={"/avatars/avatar-2.png"}/>
                                 </Avatar>
                                 <Avatar size={"lg"}>
-                                    <Avatar.Image src={"/avatars/avatar-3.png"} />
+                                    <Avatar.Image src={"/avatars/avatar-3.png"}/>
                                 </Avatar>
                                 <Avatar size={"md"} className={"mt-2"}>
-                                    <Avatar.Image src={"/avatars/avatar-4.png"} />
+                                    <Avatar.Image src={"/avatars/avatar-4.png"}/>
                                 </Avatar>
                             </div>
                             <div className={"flex items-center justify-center h-full gap-1 w-full"}>
                                 <Avatar size={"md"}>
-                                    <Avatar.Image src={"/avatars/avatar-1.png"} />
+                                    <Avatar.Image src={"/avatars/avatar-1.png"}/>
                                 </Avatar>
                                 <Avatar size={"md"}>
-                                    <Avatar.Image src={"/avatars/avatar-2.png"} />
+                                    <Avatar.Image src={"/avatars/avatar-2.png"}/>
                                 </Avatar>
                             </div>
                         </Surface>
                         <Surface variant={"default"} className={"flex flex-col gap-2"}>
                             <Label>Last Match</Label>
-                            <Surface variant={"default"} className={"ring-1 p-2 ring-accent bg-accent-soft flex flex-col"}>
+                            <Surface variant={"default"}
+                                     className={"ring-1 p-2 ring-accent bg-accent-soft flex flex-col"}>
                                 <div className={"w-full flex items-center gap-1 justify-between"}>
-                                <Avatar size={"sm"}>
-                                    <Avatar.Image src={"/avatars/avatar-1.png"} />
-                                </Avatar>
-                                    <Typography.Heading level={4} className={"font-stack-sans-notch text-accent"}>+34</Typography.Heading>
+                                    <Avatar size={"sm"}>
+                                        <Avatar.Image src={"/avatars/avatar-1.png"}/>
+                                    </Avatar>
+                                    <Typography.Heading level={4}
+                                                        className={"font-stack-sans-notch text-accent"}>+34</Typography.Heading>
                                 </div>
-                                <Chip size={"sm"} variant={"primary"} color={"accent"} className={"self-center"}>Won</Chip>
+                                <Chip size={"sm"} variant={"primary"} color={"accent"}
+                                      className={"self-center"}>Won</Chip>
                                 <div className={"w-full flex flex-row-reverse items-center gap-1 justify-between"}>
                                     <Avatar size={"sm"}>
-                                        <Avatar.Image src={"/avatars/avatar-2.png"} />
+                                        <Avatar.Image src={"/avatars/avatar-2.png"}/>
                                     </Avatar>
-                                    <Typography.Heading level={4} className={"font-stack-sans-notch text-danger"}>-16</Typography.Heading>
+                                    <Typography.Heading level={4}
+                                                        className={"font-stack-sans-notch text-danger"}>-16</Typography.Heading>
                                 </div>
                             </Surface>
                         </Surface>
