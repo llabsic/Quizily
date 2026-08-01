@@ -18,7 +18,7 @@ export function TextHeader({
           </Chip>
         )}
       </h1>
-      <p className="text-muted line-clamp-2">{description}</p>
+      <p className="text-muted line-clamp-1">{description}</p>
     </div>
   );
 }
