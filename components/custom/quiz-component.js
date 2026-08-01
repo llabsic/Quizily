@@ -73,7 +73,7 @@ export default function QuizBlock({questions, QuestionTime = 16}) {
                 if (Array.isArray(questions) && questions.length > 0) {
                     setQuiz(questions);
                 } else {
-                    setQuiz(devQuiz);
+                    setQuiz(questions); // devMode Off
                 }
             } catch (e) {
                 alert(e);
