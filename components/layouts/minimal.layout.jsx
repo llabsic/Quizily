@@ -5,7 +5,7 @@ import { Button, ButtonGroup, Tooltip } from "@heroui/react";
 import { LayoutDashboard } from "@mynaui/icons-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation"
-import { NotificationButton } from "../custom/notification.minor";
+import { GlobalChat } from "../custom/chat.minor";
 import { ThemeSwitch } from "../custom/switch.theme";
 import { getMenuItems } from "@/config/data";
 import { FooterSidebar } from "../custom/footer-sidebar";
@@ -71,7 +71,7 @@ export function MinimaDashboard({ children }) {
           <div className="items-center justify-between gap-2 hidden lg:flex">
             <Button size={"lg"} className={"bg-yellow-500"} ><Star />2,006</Button>
             <ButtonGroup>
-              <NotificationButton />
+              <GlobalChat />
               <SettingDrawerButton />
             </ButtonGroup>
             <ThemeSwitch />
